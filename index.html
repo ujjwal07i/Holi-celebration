@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Happy Holi 🎨</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    font-family:'Segoe UI',sans-serif;
+    background: linear-gradient(-45deg,#ff512f,#dd2476,#f9d423,#24c6dc);
+    background-size:400% 400%;
+    animation:bg 12s ease infinite;
+    color:white;
+    text-align:center;
+    overflow:hidden;
+}
+
+@keyframes bg{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+h1{
+    font-size:55px;
+    margin-bottom:20px;
+    text-shadow:0 0 20px white, 0 0 40px yellow;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow{
+    from{ text-shadow:0 0 10px white; }
+    to{ text-shadow:0 0 30px yellow; }
+}
+
+button{
+    padding:14px 35px;
+    font-size:18px;
+    border:none;
+    border-radius:40px;
+    cursor:pointer;
+    background:white;
+    color:#dd2476;
+    font-weight:bold;
+    margin-bottom:25px;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.1);
+}
+
+#lyrics{
+    width:85%;
+    max-width:800px;
+    min-height:140px;
+    font-size:24px;
+    background:rgba(0,0,0,0.35);
+    padding:25px;
+    border-radius:20px;
+    backdrop-filter:blur(6px);
+    line-height:1.6;
+}
+
+.cursor{
+    display:inline-block;
+    width:3px;
+    background:white;
+    margin-left:5px;
+    animation:blink 1s infinite;
+}
+
+@keyframes blink{
+    0%{opacity:1;}
+    50%{opacity:0;}
+    100%{opacity:1;}
+}
+
+/* Floating particles */
+.particle{
+    position:absolute;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    opacity:0.7;
+    animation:float linear infinite;
+}
+
+@keyframes float{
+    from{ transform:translateY(100vh);}
+    to{ transform:translateY(-10vh);}
+}
+
+/* Footer Happy Holi */
+.footer{
+    position:absolute;
+    bottom:20px;
+    font-size:28px;
+    font-weight:bold;
+    letter-spacing:3px;
+    text-shadow:0 0 10px white, 0 0 25px yellow, 0 0 40px pink;
+    animation: floatText 3s ease-in-out infinite alternate;
+}
+
+@keyframes floatText{
+    from{ transform:translateY(0px);}
+    to{ transform:translateY(-10px);}
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>🌸 Happy Holi 🌸</h1>
+
+<button id="startBtn" onclick="startSong()">Start Celebration 🎵</button>
+
+<audio id="song">
+    <source src="balam.mp3" type="audio/mpeg">
+</audio>
+
+<div id="lyrics"></div>
+
+<div class="footer">🌈 HAPPY HOLI 🌈</div>
+
+<script>
+
+const text = `🎶 Balam Pichkari jo tune mujhe maari
+Toh seedhi saadhi chhori sharabi ho gayi
+
+🎶 Haan Jeans pehen ke jo tune maara thumka
+Toh lattoo padosan ki bhabhi ho gayi
+
+🎶 Holi ke din dil khil jaate hain
+Rangon mein rang mil jaate hain`;
+
+let index = 0;
+let speed = 50;
+
+function typeEffect(){
+    if(index < text.length){
+        document.getElementById("lyrics").innerHTML =
+            text.substring(0,index) + "<span class='cursor'></span>";
+        index++;
+        setTimeout(typeEffect, speed);
+    } else {
+        document.getElementById("lyrics").innerHTML = text;
+    }
+}
+
+function startSong(){
+    const song = document.getElementById("song");
+    
+    song.play();
+    document.getElementById("startBtn").style.display="none";
+
+    index = 0;
+    document.getElementById("lyrics").innerHTML = "";
+
+    setTimeout(() => {
+        typeEffect();
+    }, 1000);
+}
+
+
+/* Create floating particles */
+function createParticle(){
+    const p = document.createElement("div");
+    p.classList.add("particle");
+    p.style.left = Math.random()*window.innerWidth + "px";
+    p.style.background = `hsl(${Math.random()*360},100%,60%)`;
+    p.style.animationDuration = (4+Math.random()*4)+"s";
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),8000);
+}
+setInterval(createParticle,500);
+
+</script>
+
+</body>
+</html>
